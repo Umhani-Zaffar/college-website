@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About — GWDC Anantnag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .page-header {
+            background-color: var(--green);
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .page-header h1 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--gold);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* About section */
+        .about-section {
+            padding: 60px 20px;
+            background-color: var(--cream);
+        }
+
+        .about-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Two column layout */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .about-text h2 {
+            font-size: 1.8rem;
+            color: var(--green);
+            margin-bottom: 15px;
+        }
+
+        .about-text p {
+            font-size: 0.92rem;
+            color: #555;
+            line-height: 1.9;
+            margin-bottom: 15px;
+        }
+
+        /* College image placeholder */
+        .about-image {
+            background-color: var(--green);
+            border-radius: 10px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 20px;
+            border: 3px dashed rgba(255,255,255,0.2);
+        }
+
+        .about-image i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--gold);
+        }
+
+        /* Vision mission cards */
+        .vm-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .vm-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border-top: 4px solid var(--gold);
+        }
+
+        .vm-card h3 {
+            font-size: 1.2rem;
+            color: var(--green);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vm-card h3 i {
+            color: var(--gold);
+        }
+
+        .vm-card p {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Principal message */
+        .principal-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            margin-bottom: 60px;
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 35px;
+            align-items: start;
+        }
+
+        .principal-avatar {
+            background-color: var(--green);
+            border-radius: 10px;
+            width: 180px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.78rem;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .principal-avatar i {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .principal-message h3 {
+            font-size: 1.3rem;
+            color: var(--green);
+            margin-bottom: 5px;
+        }
+
+        .principal-message .designation {
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .principal-message p {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.9;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .principal-message .signature {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--green);
+            font-size: 0.88rem;
+        }
+
+        /* Affiliation info */
+        .affiliation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .affiliation-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+        }
+
+        .affiliation-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .affiliation-card i {
+            font-size: 2rem;
+            color: var(--green);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .affiliation-card h4 {
+            font-size: 0.88rem;
+            color: var(--charcoal);
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .affiliation-card p {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Mobile */
+        @media (max-width: 750px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .vm-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .principal-section {
+                grid-template-columns: 1fr;
+            }
+
+            .principal-avatar {
+                width: 100%;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>GWDC Anantnag</h1>
+                <p>Government Women's Degree College</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="departments.html">Departments</a></li>
+                <li><a href="faculty.html">Faculty</a></li>
+                <li><a href="notices.html">Notices</a></li>
+                <li><a href="timetable.html">Timetable</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>About Our College</h1>
+        <p>A legacy of empowering women through education</p>
+    </div>
+
+    <section class="about-section">
+        <div class="about-container">
+
+            <!-- ABOUT + IMAGE -->
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>Government Women's Degree College Anantnag</h2>
+                    <p>Government Women's Degree College Anantnag is one of the premier institutions of higher education for women in the Anantnag district of Jammu & Kashmir. Established with a vision to provide accessible and quality education to women of the region, the college has been a pillar of academic excellence for decades.</p>
+                    <p>Affiliated to the University of Kashmir and operating under the Department of Higher Education, J&K, the college offers undergraduate programs in Arts, Science, Commerce, and Computer Applications under the National Education Policy 2020.</p>
+                    <p>The college is committed to the holistic development of its students — nurturing not just academic excellence but also leadership, cultural awareness, and social responsibility.</p>
+                </div>
+                <div class="about-image">
+                    <i class="fas fa-university"></i>
+                    <p>College building photo will be added after receiving official images</p>
+                </div>
+            </div>
+
+            <!-- VISION & MISSION -->
+            <div class="section-title">
+                <h2>Vision & Mission</h2>
+                <p>The values that guide everything we do</p>
+                <div class="gold-line"></div>
+            </div>
+
+            <div class="vm-grid">
+                <div class="vm-card">
+                    <h3><i class="fas fa-eye"></i> Our Vision</h3>
+                    <p>To be a leading institution of higher education that empowers women of Kashmir through knowledge, skill development, and character building — creating graduates who contribute meaningfully to society, the nation, and the world.</p>
+                </div>
+                <div class="vm-card">
+                    <h3><i class="fas fa-bullseye"></i> Our Mission</h3>
+                    <p>To provide accessible, inclusive, and quality higher education to women of the Anantnag region. To foster critical thinking, ethical values, and a spirit of inquiry that prepares students for the challenges of a changing world.</p>
+                </div>
+            </div>
+
+            <!-- PRINCIPAL MESSAGE -->
+            <div class="section-title">
+                <h2>Principal's Message</h2>
+                <div class="gold-line"></div>
+            </div>
+
+            <div class="principal-section">
+                <div class="principal-avatar">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Photo to be updated</span>
+                </div>
+                <div class="principal-message">
+                    <h3>Dr. Khalida Hassan</h3>
+                    <span class="designation">Principal, GWDC Anantnag</span>
+                    <p>"Education is the most powerful tool we can give to the women of our region. At Government Women's Degree College Anantnag, we are committed to providing an environment where every student can discover her potential, develop her abilities, and pursue her dreams with confidence."</p>
+                    <p>"Our faculty, our programs, and our institution stand as a testament to the belief that educated women build stronger families, stronger communities, and a stronger nation. I welcome every student to this institution with the promise of our full support in her academic journey."</p>
+                    <span class="signature">— Dr. Khalida Hassan, Principal</span>
+                </div>
+            </div>
+
+            <!-- AFFILIATION INFO -->
+            <div class="section-title">
+                <h2>Recognition & Affiliation</h2>
+                <div class="gold-line"></div>
+            </div>
+
+            <div class="affiliation-grid">
+                <div class="affiliation-card">
+                    <i class="fas fa-university"></i>
+                    <h4>Affiliated University</h4>
+                    <p>University of Kashmir, Srinagar</p>
+                </div>
+                <div class="affiliation-card">
+                    <i class="fas fa-landmark"></i>
+                    <h4>Administered By</h4>
+                    <p>Department of Higher Education, J&K</p>
+                </div>
+                <div class="affiliation-card">
+                    <i class="fas fa-award"></i>
+                    <h4>Accreditation</h4>
+                    <p>NAAC Accredited Institution</p>
+                </div>
+                <div class="affiliation-card">
+                    <i class="fas fa-book"></i>
+                    <h4>Curriculum</h4>
+                    <p>National Education Policy 2020</p>
+                </div>
+                <div class="affiliation-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>Location</h4>
+                    <p>Anantnag, Jammu & Kashmir</p>
+                </div>
+                <div class="affiliation-card">
+                    <i class="fas fa-venus"></i>
+                    <h4>Institution Type</h4>
+                    <p>Government Women's College</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>GWDC Anantnag</h3>
+                <p>Government Women's Degree College Anantnag, providing quality education to women of Kashmir since decades.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="notices.html">Notice Board</a></li>
+                    <li><a href="timetable.html">Timetable</a></li>
+                    <li><a href="exams.html">Exam Schedule</a></li>
+                    <li><a href="faculty.html">Faculty</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Anantnag, Jammu & Kashmir</p>
+                <p><i class="fas fa-phone"></i> +91-XXXXXXXXXX</p>
+                <p><i class="fas fa-envelope"></i> gwdcanantnag@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Government Women's Degree College Anantnag. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+
+</body>
+</html>

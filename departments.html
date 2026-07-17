@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments — GWDC Anantnag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .page-header {
+            background-color: var(--green);
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .page-header h1 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--gold);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Departments section */
+        .departments-section {
+            padding: 60px 20px;
+            background-color: var(--cream);
+        }
+
+        .departments-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Each department block */
+        .dept-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+        }
+
+        /* Left colored sidebar of each card */
+        .dept-sidebar {
+            background-color: var(--green);
+            padding: 35px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .dept-sidebar i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .dept-sidebar h2 {
+            color: var(--white);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        .dept-sidebar .dept-short {
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Right content area */
+        .dept-content {
+            padding: 30px 35px;
+        }
+
+        .dept-content p {
+            font-size: 0.92rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Info row — duration, seats etc */
+        .dept-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--cream);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        .meta-item i {
+            color: var(--green);
+            font-size: 0.85rem;
+        }
+
+        /* Subjects list */
+        .dept-subjects h4 {
+            font-size: 0.88rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--green);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .subjects-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .subject-tag {
+            background-color: #f0f7f4;
+            border: 1px solid #c3e6d8;
+            color: var(--green);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 700px) {
+            .dept-card {
+                grid-template-columns: 1fr;
+            }
+
+            .dept-sidebar {
+                padding: 25px;
+                flex-direction: row;
+                gap: 15px;
+                text-align: left;
+            }
+
+            .dept-sidebar i {
+                margin-bottom: 0;
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>GWDC Anantnag</h1>
+                <p>Government Women's Degree College</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="departments.html" class="active">Departments</a></li>
+                <li><a href="faculty.html">Faculty</a></li>
+                <li><a href="notices.html">Notices</a></li>
+                <li><a href="timetable.html">Timetable</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Our Departments</h1>
+        <p>Explore the academic programs we offer</p>
+    </div>
+
+    <!-- DEPARTMENTS -->
+    <section class="departments-section">
+        <div class="departments-container">
+
+            <!-- BCA -->
+            <div class="dept-card">
+                <div class="dept-sidebar">
+                    <i class="fas fa-laptop-code"></i>
+                    <h2>Computer Applications</h2>
+                    <span class="dept-short">BCA</span>
+                </div>
+                <div class="dept-content">
+                    <p>The Department of Computer Applications offers a three-year Bachelor of Computer Applications program. Students gain strong foundations in programming, database management, networking, and web technologies, preparing them for careers in IT and software development.</p>
+                    <div class="dept-meta">
+                        <span class="meta-item"><i class="fas fa-clock"></i> 3 Years / 6 Semesters</span>
+                        <span class="meta-item"><i class="fas fa-users"></i> 60 Seats</span>
+                        <span class="meta-item"><i class="fas fa-graduation-cap"></i> 10+2 (Any Stream)</span>
+                        <span class="meta-item"><i class="fas fa-university"></i> University of Kashmir</span>
+                    </div>
+                    <div class="dept-subjects">
+                        <h4>Key Subjects</h4>
+                        <div class="subjects-list">
+                            <span class="subject-tag">Programming in C</span>
+                            <span class="subject-tag">Data Structures</span>
+                            <span class="subject-tag">DBMS</span>
+                            <span class="subject-tag">Web Technology</span>
+                            <span class="subject-tag">Computer Networks</span>
+                            <span class="subject-tag">Operating Systems</span>
+                            <span class="subject-tag">Software Engineering</span>
+                            <span class="subject-tag">Mathematics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BSC -->
+            <div class="dept-card">
+                <div class="dept-sidebar">
+                    <i class="fas fa-flask"></i>
+                    <h2>Science</h2>
+                    <span class="dept-short">BSc</span>
+                </div>
+                <div class="dept-content">
+                    <p>The Department of Science offers Bachelor of Science programs across Physics, Chemistry, Botany, and Zoology. Students develop analytical and laboratory skills essential for careers in research, healthcare, and applied sciences.</p>
+                    <div class="dept-meta">
+                        <span class="meta-item"><i class="fas fa-clock"></i> 3 Years / 6 Semesters</span>
+                        <span class="meta-item"><i class="fas fa-users"></i> 120 Seats</span>
+                        <span class="meta-item"><i class="fas fa-graduation-cap"></i> 10+2 (Science)</span>
+                        <span class="meta-item"><i class="fas fa-university"></i> University of Kashmir</span>
+                    </div>
+                    <div class="dept-subjects">
+                        <h4>Key Subjects</h4>
+                        <div class="subjects-list">
+                            <span class="subject-tag">Physics</span>
+                            <span class="subject-tag">Chemistry</span>
+                            <span class="subject-tag">Botany</span>
+                            <span class="subject-tag">Zoology</span>
+                            <span class="subject-tag">Mathematics</span>
+                            <span class="subject-tag">Environmental Science</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BA -->
+            <div class="dept-card">
+                <div class="dept-sidebar">
+                    <i class="fas fa-book-open"></i>
+                    <h2>Arts</h2>
+                    <span class="dept-short">BA</span>
+                </div>
+                <div class="dept-content">
+                    <p>The Department of Arts offers a Bachelor of Arts program with a wide range of subjects including Urdu, English, History, Political Science, and Economics. It nurtures critical thinking, communication, and cultural understanding.</p>
+                    <div class="dept-meta">
+                        <span class="meta-item"><i class="fas fa-clock"></i> 3 Years / 6 Semesters</span>
+                        <span class="meta-item"><i class="fas fa-users"></i> 180 Seats</span>
+                        <span class="meta-item"><i class="fas fa-graduation-cap"></i> 10+2 (Any Stream)</span>
+                        <span class="meta-item"><i class="fas fa-university"></i> University of Kashmir</span>
+                    </div>
+                    <div class="dept-subjects">
+                        <h4>Key Subjects</h4>
+                        <div class="subjects-list">
+                            <span class="subject-tag">Urdu</span>
+                            <span class="subject-tag">English</span>
+                            <span class="subject-tag">History</span>
+                            <span class="subject-tag">Political Science</span>
+                            <span class="subject-tag">Economics</span>
+                            <span class="subject-tag">Islamic Studies</span>
+                            <span class="subject-tag">Sociology</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BCOM -->
+            <div class="dept-card">
+                <div class="dept-sidebar">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Commerce</h2>
+                    <span class="dept-short">BCom</span>
+                </div>
+                <div class="dept-content">
+                    <p>The Department of Commerce offers a Bachelor of Commerce program focused on accounting, finance, business law, and management. Graduates are well prepared for careers in banking, finance, chartered accountancy, and business management.</p>
+                    <div class="dept-meta">
+                        <span class="meta-item"><i class="fas fa-clock"></i> 3 Years / 6 Semesters</span>
+                        <span class="meta-item"><i class="fas fa-users"></i> 90 Seats</span>
+                        <span class="meta-item"><i class="fas fa-graduation-cap"></i> 10+2 (Commerce)</span>
+                        <span class="meta-item"><i class="fas fa-university"></i> University of Kashmir</span>
+                    </div>
+                    <div class="dept-subjects">
+                        <h4>Key Subjects</h4>
+                        <div class="subjects-list">
+                            <span class="subject-tag">Financial Accounting</span>
+                            <span class="subject-tag">Business Law</span>
+                            <span class="subject-tag">Economics</span>
+                            <span class="subject-tag">Taxation</span>
+                            <span class="subject-tag">Auditing</span>
+                            <span class="subject-tag">Business Management</span>
+                            <span class="subject-tag">Statistics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>GWDC Anantnag</h3>
+                <p>Government Women's Degree College Anantnag, providing quality education to women of Kashmir since decades.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="notices.html">Notice Board</a></li>
+                    <li><a href="timetable.html">Timetable</a></li>
+                    <li><a href="exams.html">Exam Schedule</a></li>
+                    <li><a href="faculty.html">Faculty</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Anantnag, Jammu & Kashmir</p>
+                <p><i class="fas fa-phone"></i> +91-XXXXXXXXXX</p>
+                <p><i class="fas fa-envelope"></i> gwdcanantnag@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Government Women's Degree College Anantnag. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+
+</body>
+</html>

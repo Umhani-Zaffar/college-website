@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable — GWDC Anantnag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .page-header {
+            background-color: var(--green);
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .page-header h1 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--gold);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Department and year selector */
+        .selector-bar {
+            background-color: var(--white);
+            padding: 25px 20px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .selector-bar label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--green);
+            margin-right: 8px;
+        }
+
+        .selector-bar select {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            color: var(--charcoal);
+            background-color: var(--cream);
+            cursor: pointer;
+            margin: 4px 10px;
+        }
+
+        .selector-bar select:focus {
+            outline: none;
+            border-color: var(--green);
+        }
+
+        /* Timetable section */
+        .timetable-section {
+            padding: 40px 20px;
+            background-color: var(--cream);
+        }
+
+        .timetable-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Label above table */
+        .timetable-label {
+            background-color: var(--green);
+            color: var(--white);
+            padding: 12px 20px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timetable-label h3 {
+            color: var(--white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .timetable-label span {
+            font-size: 0.82rem;
+            color: var(--gold);
+        }
+
+        /* The actual table */
+        .timetable-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--white);
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: var(--charcoal);
+            color: var(--white);
+        }
+
+        thead th {
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        thead th:first-child {
+            text-align: left;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: var(--cream);
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody td {
+            padding: 12px 15px;
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--charcoal);
+        }
+
+        tbody td:first-child {
+            font-weight: 600;
+            color: var(--green);
+            text-align: left;
+        }
+
+        /* Subject cell styling */
+        .subject {
+            background-color: #f0f7f4;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--green);
+        }
+
+        .break-cell {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.78rem;
+        }
+
+        /* Hidden timetables */
+        .timetable-view {
+            display: none;
+        }
+
+        .timetable-view.active {
+            display: block;
+        }
+
+        /* Note below table */
+        .timetable-note {
+            margin-top: 15px;
+            padding: 12px 18px;
+            background-color: #fff3cd;
+            border-left: 3px solid var(--gold);
+            border-radius: 0 4px 4px 0;
+            font-size: 0.83rem;
+            color: #856404;
+        }
+
+        .timetable-note i {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>GWDC Anantnag</h1>
+                <p>Government Women's Degree College</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="departments.html">Departments</a></li>
+                <li><a href="faculty.html">Faculty</a></li>
+                <li><a href="notices.html">Notices</a></li>
+                <li><a href="timetable.html" class="active">Timetable</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Class Timetable</h1>
+        <p>Select your department and year</p>
+    </div>
+
+    <!-- SELECTORS -->
+    <div class="selector-bar">
+        <label for="dept">Department:</label>
+        <select id="dept" onchange="showTimetable()">
+            <option value="">-- Select Department --</option>
+            <option value="bca">BCA</option>
+            <option value="bsc">BSc</option>
+            <option value="ba">BA</option>
+            <option value="bcom">BCom</option>
+        </select>
+
+        <label for="year">Semester:</label>
+        <select id="year" onchange="showTimetable()">
+            <option value="">-- Select Semester --</option>
+            <option value="1">Semester 1</option>
+            <option value="2">Semester 2</option>
+            <option value="3">Semester 3</option>
+            <option value="4">Semester 4</option>
+            <option value="5">Semester 5</option>
+            <option value="6">Semester 6</option>
+            <option value="7">Semester 7 (Honours)</option>
+            <option value="8">Semester 8 (Honours)</option>
+        </select>
+    </div>
+
+    <!-- TIMETABLE SECTION -->
+    <section class="timetable-section">
+        <div class="timetable-container">
+
+            <!-- DEFAULT MESSAGE -->
+            <div class="timetable-view active" id="default-msg">
+                <div style="text-align:center; padding: 60px 20px; color: #999;">
+                    <i class="fas fa-calendar-alt" style="font-size: 3rem; margin-bottom: 15px; display:block; color: var(--border);"></i>
+                    <p style="font-size: 1rem;">Please select a department and year to view the timetable</p>
+                </div>
+            </div>
+
+            <!-- BCA 2ND YEAR TIMETABLE -->
+            <div class="timetable-view" id="bca-2">
+                <div class="timetable-label">
+                    <h3>BCA — Semester 2 Timetable</h3>
+                    <span>Session 2026-27</span>
+                </div>
+                <div class="timetable-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                                <th>Saturday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>9:00 - 10:00</td>
+                                <td><span class="subject">Data Structures</span></td>
+                                <td><span class="subject">Mathematics</span></td>
+                                <td><span class="subject">DBMS</span></td>
+                                <td><span class="subject">Data Structures</span></td>
+                                <td><span class="subject">Web Technology</span></td>
+                                <td><span class="subject">Mathematics</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:00 - 11:00</td>
+                                <td><span class="subject">Web Technology</span></td>
+                                <td><span class="subject">DBMS</span></td>
+                                <td><span class="subject">Mathematics</span></td>
+                                <td><span class="subject">Web Technology</span></td>
+                                <td><span class="subject">Data Structures</span></td>
+                                <td><span class="subject">DBMS</span></td>
+                            </tr>
+                            <tr>
+                                <td>11:00 - 11:15</td>
+                                <td colspan="6" class="break-cell">☕ Short Break</td>
+                            </tr>
+                            <tr>
+                                <td>11:15 - 12:15</td>
+                                <td><span class="subject">DBMS</span></td>
+                                <td><span class="subject">Data Structures</span></td>
+                                <td><span class="subject">Web Technology</span></td>
+                                <td><span class="subject">Mathematics</span></td>
+                                <td><span class="subject">DBMS</span></td>
+                                <td><span class="subject">Lab</span></td>
+                            </tr>
+                            <tr>
+                                <td>12:15 - 1:00</td>
+                                <td colspan="6" class="break-cell">🍽️ Lunch Break</td>
+                            </tr>
+                            <tr>
+                                <td>1:00 - 2:00</td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Data Structures</span></td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Mathematics</span></td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>2:00 - 3:00</td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">DBMS</span></td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Web Technology</span></td>
+                                <td>—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="timetable-note">
+                    <i class="fas fa-info-circle"></i>
+                    This timetable is subject to change. Always check the notice board for updates.
+                </p>
+            </div>
+
+            <!-- BCA 1ST YEAR TIMETABLE -->
+            <div class="timetable-view" id="bca-1">
+                <div class="timetable-label">
+                    <h3>BCA — Semester 1 Timetable</h3>
+                    <span>Session 2026-27</span>
+                </div>
+                <div class="timetable-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                                <th>Saturday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>9:00 - 10:00</td>
+                                <td><span class="subject">Programming Fundamentals</span></td>
+                                <td><span class="subject">Mathematics I</span></td>
+                                <td><span class="subject">Computer Basics</span></td>
+                                <td><span class="subject">Programming Fundamentals</span></td>
+                                <td><span class="subject">English</span></td>
+                                <td><span class="subject">Mathematics I</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:00 - 11:00</td>
+                                <td><span class="subject">English</span></td>
+                                <td><span class="subject">Computer Basics</span></td>
+                                <td><span class="subject">Mathematics I</span></td>
+                                <td><span class="subject">English</span></td>
+                                <td><span class="subject">Programming Fundamentals</span></td>
+                                <td><span class="subject">Computer Basics</span></td>
+                            </tr>
+                            <tr>
+                                <td>11:00 - 11:15</td>
+                                <td colspan="6" class="break-cell">☕ Short Break</td>
+                            </tr>
+                            <tr>
+                                <td>11:15 - 12:15</td>
+                                <td><span class="subject">Computer Basics</span></td>
+                                <td><span class="subject">Programming Fundamentals</span></td>
+                                <td><span class="subject">English</span></td>
+                                <td><span class="subject">Mathematics I</span></td>
+                                <td><span class="subject">Computer Basics</span></td>
+                                <td><span class="subject">Lab</span></td>
+                            </tr>
+                            <tr>
+                                <td>12:15 - 1:00</td>
+                                <td colspan="6" class="break-cell">🍽️ Lunch Break</td>
+                            </tr>
+                            <tr>
+                                <td>1:00 - 2:00</td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Programming Fundamentals</span></td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Mathematics I</span></td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td>2:00 - 3:00</td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">Computer Basics</span></td>
+                                <td><span class="subject">Lab</span></td>
+                                <td><span class="subject">English</span></td>
+                                <td>—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="timetable-note">
+                    <i class="fas fa-info-circle"></i>
+                    This timetable is subject to change. Always check the notice board for updates.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>GWDC Anantnag</h3>
+                <p>Government Women's Degree College Anantnag, providing quality education to women of Kashmir since decades.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="notices.html">Notice Board</a></li>
+                    <li><a href="timetable.html">Timetable</a></li>
+                    <li><a href="exams.html">Exam Schedule</a></li>
+                    <li><a href="faculty.html">Faculty</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Anantnag, Jammu & Kashmir</p>
+                <p><i class="fas fa-phone"></i> +91-XXXXXXXXXX</p>
+                <p><i class="fas fa-envelope"></i> gwdcanantnag@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Government Women's Degree College Anantnag. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+    <script>
+        // TIMETABLE SWITCHER
+        // When department and year are both selected
+        // show the matching timetable and hide the rest
+
+        function showTimetable() {
+            const dept = document.getElementById('dept').value;
+            const year = document.getElementById('year').value;
+
+            // Hide everything first
+            document.querySelectorAll('.timetable-view').forEach(function(view) {
+                view.classList.remove('active');
+            });
+
+            // If both selected, show matching timetable
+            if (dept && year) {
+                const target = document.getElementById(dept + '-' + year);
+                if (target) {
+                    target.classList.add('active');
+                } else {
+                    // No timetable found for this combo
+                    document.getElementById('default-msg').classList.add('active');
+                    document.getElementById('default-msg').innerHTML = `
+                        <div style="text-align:center; padding: 60px 20px; color: #999;">
+                            <i class="fas fa-clock" style="font-size: 3rem; margin-bottom: 15px; display:block; color: var(--border);"></i>
+                            <p style="font-size: 1rem;">Timetable for this class will be uploaded soon</p>
+                        </div>
+                    `;
+                }
+            } else {
+                document.getElementById('default-msg').classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>

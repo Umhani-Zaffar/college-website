@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty — GWDC Anantnag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .page-header {
+            background-color: var(--green);
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .page-header h1 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--gold);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Department filter buttons */
+        .filter-bar {
+            background-color: var(--white);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 60px;
+            z-index: 100;
+        }
+
+        .filter-btn {
+            background-color: var(--cream);
+            border: 1px solid var(--border);
+            color: var(--charcoal);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 4px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--green);
+            color: var(--white);
+            border-color: var(--green);
+        }
+
+        /* Faculty section */
+        .faculty-section {
+            padding: 50px 20px;
+            background-color: var(--cream);
+        }
+
+        .faculty-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Department heading */
+        .dept-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            margin-top: 40px;
+        }
+
+        .dept-heading:first-child {
+            margin-top: 0;
+        }
+
+        .dept-heading h2 {
+            font-size: 1.3rem;
+            color: var(--green);
+        }
+
+        .dept-heading .dept-line {
+            flex: 1;
+            height: 1px;
+            background-color: var(--border);
+        }
+
+        /* Faculty cards grid */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Each faculty card */
+        .faculty-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(27,67,50,0.12);
+        }
+
+        /* Colored top bar on card */
+        .card-top {
+            background-color: var(--green);
+            height: 8px;
+        }
+
+        .faculty-card.hod .card-top {
+            background-color: var(--gold);
+        }
+
+        /* Avatar circle with initials */
+        .faculty-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--cream);
+            border: 3px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto 15px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--green);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .faculty-card.hod .faculty-avatar {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Card content */
+        .faculty-info {
+            padding: 0 20px 20px;
+            text-align: center;
+        }
+
+        .faculty-info h3 {
+            font-size: 1rem;
+            color: var(--charcoal);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .faculty-info .designation {
+            font-size: 0.8rem;
+            color: var(--green);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .faculty-info .subject {
+            font-size: 0.78rem;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .hod-badge {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--white);
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .faculty-email {
+            font-size: 0.78rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .faculty-email i {
+            color: var(--gold);
+            font-size: 0.75rem;
+        }
+
+        /* Hidden departments when filtered */
+        .dept-block.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>GWDC Anantnag</h1>
+                <p>Government Women's Degree College</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="departments.html">Departments</a></li>
+                <li><a href="faculty.html" class="active">Faculty</a></li>
+                <li><a href="notices.html">Notices</a></li>
+                <li><a href="timetable.html">Timetable</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Our Faculty</h1>
+        <p>Meet the educators shaping futures</p>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All Departments</button>
+        <button class="filter-btn" data-filter="bca">BCA</button>
+        <button class="filter-btn" data-filter="bsc">BSc</button>
+        <button class="filter-btn" data-filter="ba">BA</button>
+        <button class="filter-btn" data-filter="bcom">BCom</button>
+    </div>
+
+    <!-- FACULTY SECTION -->
+    <section class="faculty-section">
+        <div class="faculty-container">
+
+            <!-- BCA DEPARTMENT -->
+            <div class="dept-block" data-dept="bca">
+                <div class="dept-heading">
+                    <h2>Department of Computer Applications (BCA)</h2>
+                    <div class="dept-line"></div>
+                </div>
+                <div class="faculty-grid">
+
+                    <div class="faculty-card hod">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">SA</div>
+                        <div class="faculty-info">
+                            <span class="hod-badge">Head of Department</span>
+                            <h3>Prof. Shaista Ahsan</h3>
+                            <p class="designation">Associate Professor</p>
+                            <p class="subject">Data Structures & Algorithms</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> shaista@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                    <div class="faculty-card">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">RB</div>
+                        <div class="faculty-info">
+                            <h3>Prof. Rukhsar Banoo</h3>
+                            <p class="designation">Assistant Professor</p>
+                            <p class="subject">Web Technology & DBMS</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> rukhsar@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                    <div class="faculty-card">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">FJ</div>
+                        <div class="faculty-info">
+                            <h3>Prof. Farida Jan</h3>
+                            <p class="designation">Assistant Professor</p>
+                            <p class="subject">Mathematics & Programming</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> farida@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BSC DEPARTMENT -->
+            <div class="dept-block" data-dept="bsc">
+                <div class="dept-heading">
+                    <h2>Department of Science (BSc)</h2>
+                    <div class="dept-line"></div>
+                </div>
+                <div class="faculty-grid">
+
+                    <div class="faculty-card hod">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">NM</div>
+                        <div class="faculty-info">
+                            <span class="hod-badge">Head of Department</span>
+                            <h3>Prof. Nusrat Malik</h3>
+                            <p class="designation">Associate Professor</p>
+                            <p class="subject">Physics</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> nusrat@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                    <div class="faculty-card">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">ZA</div>
+                        <div class="faculty-info">
+                            <h3>Prof. Zubeda Akhter</h3>
+                            <p class="designation">Assistant Professor</p>
+                            <p class="subject">Chemistry</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> zubeda@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                    <div class="faculty-card">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">HB</div>
+                        <div class="faculty-info">
+                            <h3>Prof. Huma Bhat</h3>
+                            <p class="designation">Assistant Professor</p>
+                            <p class="subject">Botany & Zoology</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> huma@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BA DEPARTMENT -->
+            <div class="dept-block" data-dept="ba">
+                <div class="dept-heading">
+                    <h2>Department of Arts (BA)</h2>
+                    <div class="dept-line"></div>
+                </div>
+                <div class="faculty-grid">
+
+                    <div class="faculty-card hod">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">SM</div>
+                        <div class="faculty-info">
+                            <span class="hod-badge">Head of Department</span>
+                            <h3>Prof. Sameena Mir</h3>
+                            <p class="designation">Associate Professor</p>
+                            <p class="subject">Urdu Literature</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> sameena@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                    <div class="faculty-card">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">AR</div>
+                        <div class="faculty-info">
+                            <h3>Prof. Asiya Rather</h3>
+                            <p class="designation">Assistant Professor</p>
+                            <p class="subject">English Literature</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> asiya@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                    <div class="faculty-card">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">MB</div>
+                        <div class="faculty-info">
+                            <h3>Prof. Mahbooba Bhat</h3>
+                            <p class="designation">Assistant Professor</p>
+                            <p class="subject">History & Political Science</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> mahbooba@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BCOM DEPARTMENT -->
+            <div class="dept-block" data-dept="bcom">
+                <div class="dept-heading">
+                    <h2>Department of Commerce (BCom)</h2>
+                    <div class="dept-line"></div>
+                </div>
+                <div class="faculty-grid">
+
+                    <div class="faculty-card hod">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">RA</div>
+                        <div class="faculty-info">
+                            <span class="hod-badge">Head of Department</span>
+                            <h3>Prof. Rohi Akhter</h3>
+                            <p class="designation">Associate Professor</p>
+                            <p class="subject">Accounting & Finance</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> rohi@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                    <div class="faculty-card">
+                        <div class="card-top"></div>
+                        <div class="faculty-avatar">NR</div>
+                        <div class="faculty-info">
+                            <h3>Prof. Nazia Rashid</h3>
+                            <p class="designation">Assistant Professor</p>
+                            <p class="subject">Business Studies</p>
+                            <p class="faculty-email"><i class="fas fa-envelope"></i> nazia@gwdcanantnag.edu.in</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>GWDC Anantnag</h3>
+                <p>Government Women's Degree College Anantnag, providing quality education to women of Kashmir since decades.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="notices.html">Notice Board</a></li>
+                    <li><a href="timetable.html">Timetable</a></li>
+                    <li><a href="exams.html">Exam Schedule</a></li>
+                    <li><a href="faculty.html">Faculty</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Anantnag, Jammu & Kashmir</p>
+                <p><i class="fas fa-phone"></i> +91-XXXXXXXXXX</p>
+                <p><i class="fas fa-envelope"></i> gwdcanantnag@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Government Women's Degree College Anantnag. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+    <script>
+        // DEPARTMENT FILTER
+        // Shows only selected department's faculty
+        // Hides the rest
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const deptBlocks = document.querySelectorAll('.dept-block');
+
+        filterBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                deptBlocks.forEach(function(block) {
+                    if (filter === 'all') {
+                        block.classList.remove('hidden');
+                    } else if (block.getAttribute('data-dept') === filter) {
+                        block.classList.remove('hidden');
+                    } else {
+                        block.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

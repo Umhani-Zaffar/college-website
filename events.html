@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events — GWDC Anantnag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .page-header {
+            background-color: var(--green);
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .page-header h1 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--gold);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            background-color: var(--white);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 60px;
+            z-index: 100;
+        }
+
+        .filter-btn {
+            background-color: var(--cream);
+            border: 1px solid var(--border);
+            color: var(--charcoal);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 4px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--green);
+            color: var(--white);
+            border-color: var(--green);
+        }
+
+        /* Events section */
+        .events-section {
+            padding: 60px 20px;
+            background-color: var(--cream);
+        }
+
+        .events-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Upcoming events banner */
+        .upcoming-banner {
+            background-color: var(--green);
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: var(--white);
+        }
+
+        .upcoming-banner i {
+            font-size: 2rem;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .upcoming-banner h3 {
+            color: var(--white);
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .upcoming-banner p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.87rem;
+        }
+
+        .upcoming-banner .event-date-badge {
+            margin-left: auto;
+            background-color: var(--gold);
+            color: var(--white);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Events grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* Each event card */
+        .event-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(27,67,50,0.12);
+        }
+
+        /* Colored top section of card */
+        .event-card-top {
+            background-color: var(--green);
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card-top::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .event-icon {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .event-icon i {
+            font-size: 1.4rem;
+            color: var(--gold);
+        }
+
+        .event-card-top h3 {
+            color: var(--white);
+            font-size: 1.05rem;
+            line-height: 1.4;
+        }
+
+        /* Bottom content of card */
+        .event-card-body {
+            padding: 20px 25px;
+        }
+
+        .event-card-body p {
+            font-size: 0.87rem;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        /* Date and venue info */
+        .event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .event-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: #777;
+        }
+
+        .event-detail-item i {
+            color: var(--gold);
+            width: 14px;
+            font-size: 0.8rem;
+        }
+
+        /* Status tag */
+        .event-status {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-upcoming {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-ongoing {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        /* Hidden cards when filtered */
+        .event-card.hidden {
+            display: none;
+        }
+
+        /* Gallery section */
+        .gallery-section {
+            padding: 60px 20px;
+            background-color: var(--white);
+        }
+
+        .gallery-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        /* Gallery placeholder boxes */
+        .gallery-item {
+            background-color: var(--cream);
+            border-radius: 8px;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border);
+            color: #aaa;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .gallery-item i {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--border);
+        }
+
+        .gallery-item:hover i {
+            color: var(--green);
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .upcoming-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .upcoming-banner .event-date-badge {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>GWDC Anantnag</h1>
+                <p>Government Women's Degree College</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="departments.html">Departments</a></li>
+                <li><a href="faculty.html">Faculty</a></li>
+                <li><a href="notices.html">Notices</a></li>
+                <li><a href="timetable.html">Timetable</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Events & Activities</h1>
+        <p>College life beyond the classroom</p>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All Events</button>
+        <button class="filter-btn" data-filter="cultural">Cultural</button>
+        <button class="filter-btn" data-filter="sports">Sports</button>
+        <button class="filter-btn" data-filter="academic">Academic</button>
+        <button class="filter-btn" data-filter="social">Social</button>
+    </div>
+
+    <!-- EVENTS SECTION -->
+    <section class="events-section">
+        <div class="events-container">
+
+            <!-- NEXT BIG EVENT BANNER -->
+            <div class="upcoming-banner">
+                <i class="fas fa-star"></i>
+                <div>
+                    <h3>Next Major Event — Annual Sports Day</h3>
+                    <p>Registrations are open. Visit the sports department to participate.</p>
+                </div>
+                <span class="event-date-badge">August 5, 2026</span>
+            </div>
+
+            <!-- EVENTS GRID -->
+            <div class="events-grid">
+
+                <div class="event-card" data-category="sports">
+                    <div class="event-card-top">
+                        <div class="event-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3>Annual Sports Day</h3>
+                    </div>
+                    <div class="event-card-body">
+                        <p>Annual inter-department sports competition featuring athletics, team sports, and individual events. All students are encouraged to participate and represent their department.</p>
+                        <div class="event-details">
+                            <div class="event-detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>August 5, 2026</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>College Ground, GWDC Anantnag</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>9:00 AM onwards</span>
+                            </div>
+                        </div>
+                        <span class="event-status status-upcoming">Upcoming</span>
+                    </div>
+                </div>
+
+                <div class="event-card" data-category="cultural">
+                    <div class="event-card-top">
+                        <div class="event-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3>Annual Cultural Week</h3>
+                    </div>
+                    <div class="event-card-body">
+                        <p>A week-long celebration of arts, culture, and talent. Events include debates, singing, rangoli, poetry recitation, and drama performances open to all students.</p>
+                        <div class="event-details">
+                            <div class="event-detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>August 10 — 14, 2026</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>College Auditorium</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>10:00 AM — 4:00 PM</span>
+                            </div>
+                        </div>
+                        <span class="event-status status-upcoming">Upcoming</span>
+                    </div>
+                </div>
+
+                <div class="event-card" data-category="academic">
+                    <div class="event-card-top">
+                        <div class="event-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h3>Career Guidance Seminar</h3>
+                    </div>
+                    <div class="event-card-body">
+                        <p>A career guidance session for final year students covering higher education options, competitive exams, and job opportunities in various fields.</p>
+                        <div class="event-details">
+                            <div class="event-detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>July 28, 2026</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Seminar Hall, GWDC Anantnag</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>11:00 AM — 1:00 PM</span>
+                            </div>
+                        </div>
+                        <span class="event-status status-upcoming">Upcoming</span>
+                    </div>
+                </div>
+
+                <div class="event-card" data-category="social">
+                    <div class="event-card-top">
+                        <div class="event-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>NSS Community Drive</h3>
+                    </div>
+                    <div class="event-card-body">
+                        <p>National Service Scheme community outreach drive. Students participate in cleanliness drives, awareness campaigns, and social welfare activities in nearby villages.</p>
+                        <div class="event-details">
+                            <div class="event-detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>August 1, 2026</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Anantnag District</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>8:00 AM — 12:00 PM</span>
+                            </div>
+                        </div>
+                        <span class="event-status status-upcoming">Upcoming</span>
+                    </div>
+                </div>
+
+                <div class="event-card" data-category="cultural">
+                    <div class="event-card-top">
+                        <div class="event-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>BCA Farewell Ceremony</h3>
+                    </div>
+                    <div class="event-card-body">
+                        <p>Annual farewell ceremony organized by second year BCA students to celebrate and honour the graduating final year batch. An evening of memories, performances, and awards.</p>
+                        <div class="event-details">
+                            <div class="event-detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>September 2026</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>College Auditorium</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>To be announced</span>
+                            </div>
+                        </div>
+                        <span class="event-status status-upcoming">Upcoming</span>
+                    </div>
+                </div>
+
+                <div class="event-card" data-category="academic">
+                    <div class="event-card-top">
+                        <div class="event-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3>Science Exhibition</h3>
+                    </div>
+                    <div class="event-card-body">
+                        <p>Annual science exhibition where BSc students showcase research projects, models, and experiments. Open to all college students and faculty members.</p>
+                        <div class="event-details">
+                            <div class="event-detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>October 2026</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Science Block, GWDC Anantnag</span>
+                            </div>
+                            <div class="event-detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>To be announced</span>
+                            </div>
+                        </div>
+                        <span class="event-status status-upcoming">Upcoming</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section class="gallery-section">
+        <div class="gallery-container">
+            <div class="section-title">
+                <h2>Photo Gallery</h2>
+                <p>Memories from past events</p>
+                <div class="gold-line"></div>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <i class="fas fa-image"></i>
+                    <span>Sports Day 2025</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-image"></i>
+                    <span>Cultural Week 2025</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-image"></i>
+                    <span>Farewell 2025</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-image"></i>
+                    <span>NSS Drive 2025</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-image"></i>
+                    <span>Science Exhibition</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-image"></i>
+                    <span>Independence Day</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-image"></i>
+                    <span>Republic Day</span>
+                </div>
+                <div class="gallery-item">
+                    <i class="fas fa-image"></i>
+                    <span>Add Photos</span>
+                </div>
+            </div>
+            <p style="text-align:center; margin-top: 20px; font-size: 0.85rem; color: #999;">
+                <i class="fas fa-info-circle"></i>
+                Photos will be added after receiving official images from college administration.
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>GWDC Anantnag</h3>
+                <p>Government Women's Degree College Anantnag, providing quality education to women of Kashmir since decades.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="notices.html">Notice Board</a></li>
+                    <li><a href="timetable.html">Timetable</a></li>
+                    <li><a href="exams.html">Exam Schedule</a></li>
+                    <li><a href="faculty.html">Faculty</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Anantnag, Jammu & Kashmir</p>
+                <p><i class="fas fa-phone"></i> +91-XXXXXXXXXX</p>
+                <p><i class="fas fa-envelope"></i> gwdcanantnag@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Government Women's Degree College Anantnag. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+    <script>
+        // EVENT FILTER
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const eventCards = document.querySelectorAll('.event-card');
+
+        filterBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                eventCards.forEach(function(card) {
+                    if (filter === 'all') {
+                        card.classList.remove('hidden');
+                    } else if (card.getAttribute('data-category') === filter) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

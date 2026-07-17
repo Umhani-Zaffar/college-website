@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Board — GWDC Anantnag</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* PAGE SPECIFIC STYLES */
+
+        /* Top banner showing page title */
+        .page-header {
+            background-color: var(--green);
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .page-header h1 {
+            color: var(--white);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--gold);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Filter buttons — Exams, Events etc */
+        .filter-bar {
+            background-color: var(--white);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 60px;
+            z-index: 100;
+        }
+
+        .filter-btn {
+            background-color: var(--cream);
+            border: 1px solid var(--border);
+            color: var(--charcoal);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 4px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--green);
+            color: var(--white);
+            border-color: var(--green);
+        }
+
+        /* Main notices area */
+        .notices-section {
+            padding: 40px 20px;
+            background-color: var(--cream);
+            min-height: 60vh;
+        }
+
+        .notices-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Each individual notice row */
+        .notice-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--gold);
+            transition: transform 0.2s ease;
+        }
+
+        .notice-item:hover {
+            transform: translateX(4px);
+        }
+
+        /* Pinned notice looks different */
+        .notice-item.pinned {
+            border-left-color: var(--green);
+            background-color: #f0f7f4;
+        }
+
+        .notice-icon {
+            background-color: var(--cream);
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notice-icon i {
+            color: var(--green);
+            font-size: 1.1rem;
+        }
+
+        .notice-body {
+            flex: 1;
+        }
+
+        .notice-body h3 {
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 5px;
+        }
+
+        .notice-body p {
+            font-size: 0.87rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .notice-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .notice-date {
+            font-size: 0.78rem;
+            color: #999;
+        }
+
+        .notice-date i {
+            margin-right: 4px;
+        }
+
+        /* Category badge on each notice */
+        .badge {
+            font-size: 0.72rem;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-exam {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-event {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-general {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-holiday {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .pin-badge {
+            font-size: 0.72rem;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .pin-badge i {
+            margin-right: 3px;
+        }
+
+        /* Hidden notices when filtered */
+        .notice-item.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>GWDC Anantnag</h1>
+                <p>Government Women's Degree College</p>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="departments.html">Departments</a></li>
+                <li><a href="faculty.html">Faculty</a></li>
+                <li><a href="notices.html" class="active">Notices</a></li>
+                <li><a href="timetable.html">Timetable</a></li>
+                <li><a href="exams.html">Exams</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>Notice Board</h1>
+        <p>All official announcements and updates</p>
+    </div>
+
+    <!-- FILTER BUTTONS -->
+    <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="exam">Exams</button>
+        <button class="filter-btn" data-filter="event">Events</button>
+        <button class="filter-btn" data-filter="holiday">Holidays</button>
+        <button class="filter-btn" data-filter="general">General</button>
+    </div>
+
+    <!-- NOTICES LIST -->
+    <section class="notices-section">
+        <div class="notices-container">
+
+            <!-- PINNED NOTICE -->
+            <div class="notice-item pinned" data-category="exam">
+                <div class="notice-icon">
+                    <i class="fas fa-thumbtack"></i>
+                </div>
+                <div class="notice-body">
+                    <h3>Examination Forms — Semester 3 & 5</h3>
+                    <p>All students of Semester 3 and Semester 5 are required to fill their examination forms before July 30, 2026. Late submissions will not be accepted.</p>
+                    <div class="notice-meta">
+                        <span class="notice-date"><i class="far fa-calendar"></i> July 15, 2026</span>
+                        <span class="badge badge-exam">Exam</span>
+                        <span class="pin-badge"><i class="fas fa-thumbtack"></i> Pinned</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REGULAR NOTICES -->
+            <div class="notice-item" data-category="general">
+                <div class="notice-icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="notice-body">
+                    <h3>Scholarship Applications Open 2026-27</h3>
+                    <p>Merit and need-based scholarship applications for the session 2026-27 are now open. Eligible students can collect forms from the office.</p>
+                    <div class="notice-meta">
+                        <span class="notice-date"><i class="far fa-calendar"></i> July 12, 2026</span>
+                        <span class="badge badge-general">General</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notice-item" data-category="event">
+                <div class="notice-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="notice-body">
+                    <h3>Annual Sports Day — August 5, 2026</h3>
+                    <p>Annual Sports Day will be held on August 5, 2026. Students interested in participating should register at the sports department before July 25.</p>
+                    <div class="notice-meta">
+                        <span class="notice-date"><i class="far fa-calendar"></i> July 10, 2026</span>
+                        <span class="badge badge-event">Event</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notice-item" data-category="holiday">
+                <div class="notice-icon">
+                    <i class="fas fa-door-closed"></i>
+                </div>
+                <div class="notice-body">
+                    <h3>College Holiday — July 18, 2026</h3>
+                    <p>College will remain closed on July 18, 2026 on account of local holiday. All classes scheduled for that day stand cancelled.</p>
+                    <div class="notice-meta">
+                        <span class="notice-date"><i class="far fa-calendar"></i> July 9, 2026</span>
+                        <span class="badge badge-holiday">Holiday</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notice-item" data-category="exam">
+                <div class="notice-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="notice-body">
+                    <h3>Internal Assessment Schedule — July 2026</h3>
+                    <p>Internal assessment tests for all departments will be conducted from July 20 to July 28, 2026. Detailed schedule available at the office.</p>
+                    <div class="notice-meta">
+                        <span class="notice-date"><i class="far fa-calendar"></i> July 7, 2026</span>
+                        <span class="badge badge-exam">Exam</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notice-item" data-category="general">
+                <div class="notice-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="notice-body">
+                    <h3>Library Timing Update</h3>
+                    <p>College library will now remain open from 9:00 AM to 4:00 PM on all working days. Students are encouraged to make use of library resources.</p>
+                    <div class="notice-meta">
+                        <span class="notice-date"><i class="far fa-calendar"></i> July 5, 2026</span>
+                        <span class="badge badge-general">General</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notice-item" data-category="event">
+                <div class="notice-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <div class="notice-body">
+                    <h3>Cultural Week — August 2026</h3>
+                    <p>Annual cultural week will be celebrated from August 10-14, 2026. Students can participate in debates, rangoli, singing, and other competitions.</p>
+                    <div class="notice-meta">
+                        <span class="notice-date"><i class="far fa-calendar"></i> July 3, 2026</span>
+                        <span class="badge badge-event">Event</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>GWDC Anantnag</h3>
+                <p>Government Women's Degree College Anantnag, providing quality education to women of Kashmir since decades.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="notices.html">Notice Board</a></li>
+                    <li><a href="timetable.html">Timetable</a></li>
+                    <li><a href="exams.html">Exam Schedule</a></li>
+                    <li><a href="faculty.html">Faculty</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Anantnag, Jammu & Kashmir</p>
+                <p><i class="fas fa-phone"></i> +91-XXXXXXXXXX</p>
+                <p><i class="fas fa-envelope"></i> gwdcanantnag@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Government Women's Degree College Anantnag. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+    <script>
+        // FILTER FUNCTIONALITY
+        // When you click a filter button
+        // only notices with matching category show up
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const noticeItems = document.querySelectorAll('.notice-item');
+
+        filterBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+
+                // Remove active from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+
+                // Add active to clicked button
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                noticeItems.forEach(function(item) {
+                    if (filter === 'all') {
+                        item.classList.remove('hidden');
+                    } else if (item.getAttribute('data-category') === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
